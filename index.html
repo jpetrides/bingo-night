@@ -210,6 +210,29 @@
             margin-top: 10px;
         }
 
+        .payment-btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background 0.3s ease;
+        }
+
+        .payment-btn:hover {
+            background: #5568d3;
+        }
+
+        .qr-or-tap {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
         .important-note {
             background: #d1ecf1;
             border-left: 5px solid #0c5460;
@@ -271,6 +294,34 @@
             flex-wrap: wrap;
         }
 
+        .calendar-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .calendar-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calendar-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
         .footer {
             background: #2a5298;
             color: white;
@@ -300,6 +351,15 @@
             <img src="Logo.png" alt="St Anthony's School PTO Bingo Night" class="logo">
             <h1>PTO Family Bingo Night</h1>
             <div class="event-date">Friday, February 6th | 6:00 PM - 8:00 PM</div>
+
+            <div class="calendar-buttons">
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=St+Anthony%27s+PTO+Bingo+Night&dates=20260206T230000Z/20260207T010000Z&details=Join+us+for+a+fun+evening+of+Bingo%21+Pizza%2C+snacks%2C+prizes%2C+and+fun+with+friends.+Pre-order+your+package+to+ensure+we+have+enough+pizza.+Contact+Joe+Petrides+at+joe.petrides%40gmail.com+or+703.254.6206+for+questions.&location=St+Anthony%27s+School+Cafeteria" target="_blank" class="calendar-btn">
+                    📅 Add to Google Calendar
+                </a>
+                <a href="#" onclick="downloadICS(); return false;" class="calendar-btn">
+                    📅 Add to Apple Calendar
+                </a>
+            </div>
         </div>
 
         <div class="content">
@@ -385,6 +445,8 @@
                         <div class="payment-card">
                             <h4>Venmo</h4>
                             <img src="QR Codes/Venmo.png" alt="Venmo QR Code" class="qr-code">
+                            <p class="qr-or-tap">Scan QR code or tap button below</p>
+                            <a href="https://venmo.com/u/joseph-petrides-1" target="_blank" class="payment-btn">Pay with Venmo</a>
                             <div class="payment-info">
                                 <p><strong>@joseph-petrides-1</strong></p>
                                 <p>Last 4: 6206</p>
@@ -395,6 +457,8 @@
                         <div class="payment-card">
                             <h4>PayPal</h4>
                             <img src="QR Codes/Paypal.jpg" alt="PayPal QR Code" class="qr-code">
+                            <p class="qr-or-tap">Scan QR code or tap button below</p>
+                            <a href="https://paypal.me/josephpetrides" target="_blank" class="payment-btn">Pay with PayPal</a>
                             <div class="payment-info">
                                 <p><strong>joe.petrides@gmail.com</strong></p>
                                 <p style="margin-top: 10px; font-size: 0.9em; color: #d9534f;"><strong>Don't forget to add your pizza order & name in the notes!</strong></p>
@@ -404,9 +468,12 @@
                         <div class="payment-card">
                             <h4>Zelle</h4>
                             <img src="QR Codes/Zelle1.jpeg" alt="Zelle QR Code" class="qr-code">
+                            <p class="qr-or-tap">Scan QR code or use your banking app</p>
                             <div class="payment-info">
                                 <p><strong>joe.petrides@gmail.com</strong></p>
                                 <p>Or: 703-254-6206</p>
+                                <button class="copy-btn" onclick="copyToClipboard('joe.petrides@gmail.com', this)" style="margin-top: 10px;">Copy Email for Zelle</button>
+                                <button class="copy-btn" onclick="copyToClipboard('7032546206', this)" style="margin-top: 10px; margin-left: 5px;">Copy Phone for Zelle</button>
                                 <p style="margin-top: 10px; font-size: 0.9em; color: #d9534f;"><strong>Don't forget to add your pizza order & name in the notes!</strong></p>
                             </div>
                         </div>
@@ -453,6 +520,37 @@
             }).catch(function(err) {
                 alert('Failed to copy: ' + err);
             });
+        }
+
+        function downloadICS() {
+            const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//St Anthony's School//PTO Bingo Night//EN
+BEGIN:VEVENT
+UID:bingo-night-2026@stanthonys.com
+DTSTAMP:20260120T000000Z
+DTSTART:20260206T230000Z
+DTEND:20260207T010000Z
+SUMMARY:St Anthony's PTO Bingo Night
+DESCRIPTION:Join us for a fun evening of Bingo! Pizza, snacks, prizes, and fun with friends. Pre-order your package to ensure we have enough pizza. Contact Joe Petrides at joe.petrides@gmail.com or 703.254.6206 for questions.
+LOCATION:St Anthony's School Cafeteria
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT24H
+ACTION:DISPLAY
+DESCRIPTION:Reminder: Bingo Night tomorrow!
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+
+            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'bingo-night.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
