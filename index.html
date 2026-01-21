@@ -324,6 +324,36 @@
             background: #C41A1F;
         }
 
+        .pre-order-btn {
+            background: #E31E24;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            display: block;
+            margin: 20px auto;
+            cursor: pointer;
+            border: none;
+            width: fit-content;
+        }
+
+        .pre-order-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            background: #C41A1F;
+        }
+
+        .pto-presents {
+            font-size: 0.5em;
+            font-weight: normal;
+            display: block;
+            margin-bottom: 5px;
+        }
+
         .footer {
             background: #3E4A5C;
             color: white;
@@ -334,7 +364,11 @@
 
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.8em;
+                font-size: 1.5em;
+            }
+
+            .pto-presents {
+                font-size: 0.55em;
             }
 
             .content {
@@ -351,8 +385,10 @@
     <div class="container">
         <div class="header">
             <img src="Logo.png" alt="St Anthony's School PTO Bingo Night" class="logo">
-            <h1>PTO Family Bingo Night</h1>
+            <h1><span class="pto-presents">St Anthony of Padua PTO Presents:</span>Family Bingo Night</h1>
             <div class="event-date">Friday, February 6th | 6:00 PM - 8:00 PM</div>
+
+            <button class="pre-order-btn" onclick="scrollToPreOrder()">🍕 Click to Pre-Order Pizza 🍕</button>
 
             <div class="calendar-buttons">
                 <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=St+Anthony%27s+PTO+Bingo+Night&dates=20260206T230000Z/20260207T010000Z&details=Join+us+for+a+fun+evening+of+Bingo%21+Pizza%2C+snacks%2C+prizes%2C+and+fun+with+friends.+Pre-order+your+package+to+ensure+we+have+enough+pizza.+Contact+Joe+Petrides+at+joe.petrides%40gmail.com+or+703.254.6206+for+questions.&location=St+Anthony%27s+School+Cafeteria" target="_blank" class="calendar-btn">
@@ -392,7 +428,7 @@
                 <p>If you are interested in bringing in a hot food donation that is not on the list, let Joe Petrides know at <a href="mailto:joe.petrides@gmail.com">joe.petrides@gmail.com</a> or via text/WhatsApp - 703.254.6206. We'd love to see some new food items at bingo night. We will provide the tray to warm it in, but you will need to bring it already warm.</p>
             </div>
 
-            <div class="section">
+            <div class="section" id="pre-order">
                 <h2>Pre-Order Package (Highly Encouraged!)</h2>
                 <div class="important-note">
                     <strong>We HIGHLY ENCOURAGE PREORDERS.</strong> It helps us make sure we buy the right amount of pizza.
@@ -434,7 +470,7 @@
 
                 <div class="important-note">
                     <strong>Pre-Orders must be received by Thursday evening (February 5th).</strong><br>
-                    Make sure you specify your pizza order and your name in the Venmo or PayPal notes.
+                    Make sure you specify your pizza order (Cheese, Pepperoni or Veggie) and your name in the Venmo, PayPal or Zelle notes.
                 </div>
             </div>
 
@@ -509,6 +545,13 @@
     </div>
 
     <script>
+        function scrollToPreOrder() {
+            document.getElementById('pre-order').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
         function copyToClipboard(text, button) {
             navigator.clipboard.writeText(text).then(function() {
                 const originalText = button.textContent;
