@@ -163,75 +163,109 @@
             font-size: 1.2em;
         }
 
-        .payment-section {
+        .order-form {
             background: #f8f9fa;
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
         }
 
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 25px;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        .payment-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .payment-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .payment-card h4 {
-            color: #3E4A5C;
-            font-size: 1.3em;
-            margin-bottom: 15px;
-        }
-
-        .payment-card .qr-code {
-            max-width: 200px;
-            width: 100%;
-            height: auto;
-            margin: 15px auto;
+        .form-group label {
             display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #3E4A5C;
         }
 
-        .payment-card .payment-info {
-            font-size: 0.95em;
-            color: #666;
-            margin-top: 10px;
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #D4C5A0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
         }
 
-        .payment-btn {
-            display: inline-block;
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3E4A5C;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-submit-btn {
             background: #E31E24;
             color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.2em;
             font-weight: bold;
-            margin-top: 15px;
-            transition: background 0.3s ease;
-        }
-
-        .payment-btn:hover {
-            background: #C41A1F;
-        }
-
-        .qr-or-tap {
-            font-size: 0.85em;
-            color: #888;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            display: block;
+            width: 100%;
             margin-top: 10px;
-            font-style: italic;
+        }
+
+        .form-submit-btn:hover {
+            background: #C41A1F;
+            transform: translateY(-2px);
+        }
+
+        .form-submit-btn:disabled {
+            background: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-note {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .order-total {
+            background: #3E4A5C;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            text-align: center;
+        }
+
+        .form-success {
+            display: none;
+            background: #28a745;
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .form-success h3 {
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         .important-note {
@@ -469,52 +503,79 @@
                 </table>
 
                 <div class="important-note">
-                    <strong>Pre-Orders must be received by Thursday evening (February 5th).</strong><br>
-                    Make sure you specify your pizza order (Cheese, Pepperoni or Veggie) and your name in the Venmo, PayPal or Zelle notes.
+                    <strong>Pre-Orders must be received by Thursday evening (February 5th).</strong>
                 </div>
             </div>
 
             <div class="section">
-                <h2>How to Pre-Order & Pay</h2>
-                <div class="payment-section">
-                    <p style="text-align: center; font-size: 1.1em; margin-bottom: 10px;"><strong>Choose your preferred payment method:</strong></p>
-
-                    <div class="payment-methods">
-                        <div class="payment-card">
-                            <h4>Venmo</h4>
-                            <img src="QR Codes/Venmo.png" alt="Venmo QR Code" class="qr-code">
-                            <p class="qr-or-tap">Scan QR code or tap button below</p>
-                            <a href="https://venmo.com/u/joseph-petrides-1" target="_blank" class="payment-btn">Pay with Venmo</a>
-                            <div class="payment-info">
-                                <p><strong>@joseph-petrides-1</strong></p>
-                                <p>Last 4: 6206</p>
-                                <p style="margin-top: 10px; font-size: 0.9em; color: #d9534f;"><strong>Don't forget to add your pizza order & name in the notes!</strong></p>
+                <h2>Pre-Order Form</h2>
+                <div class="order-form" id="order-form-container">
+                    <form id="preorder-form" onsubmit="submitOrder(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="familyName">Family Name *</label>
+                                <input type="text" id="familyName" name="familyName" required placeholder="e.g. Petrides">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required placeholder="e.g. joe@gmail.com">
                             </div>
                         </div>
 
-                        <div class="payment-card">
-                            <h4>PayPal</h4>
-                            <img src="QR Codes/Paypal.jpg" alt="PayPal QR Code" class="qr-code">
-                            <p class="qr-or-tap">Scan QR code or tap button below</p>
-                            <a href="https://paypal.me/josephpetrides" target="_blank" class="payment-btn">Pay with PayPal</a>
-                            <div class="payment-info">
-                                <p><strong>joe.petrides@gmail.com</strong></p>
-                                <p style="margin-top: 10px; font-size: 0.9em; color: #d9534f;"><strong>Don't forget to add your pizza order & name in the notes!</strong></p>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="e.g. 703-254-6206">
+                            </div>
+                            <div class="form-group">
+                                <label for="student">Student Name(s) & Grade(s)</label>
+                                <input type="text" id="student" name="student" placeholder="e.g. Maria - 3rd, John - 1st">
                             </div>
                         </div>
 
-                        <div class="payment-card">
-                            <h4>Zelle</h4>
-                            <img src="QR Codes/Zelle1.jpeg" alt="Zelle QR Code" class="qr-code">
-                            <p class="qr-or-tap">Scan QR code or use your banking app</p>
-                            <div class="payment-info">
-                                <p><strong>joe.petrides@gmail.com</strong></p>
-                                <p>Or: 703-254-6206</p>
-                                <button class="copy-btn" onclick="copyToClipboard('joe.petrides@gmail.com', this)" style="margin-top: 10px;">Copy Email for Zelle</button>
-                                <button class="copy-btn" onclick="copyToClipboard('7032546206', this)" style="margin-top: 10px; margin-left: 5px;">Copy Phone for Zelle</button>
-                                <p style="margin-top: 10px; font-size: 0.9em; color: #d9534f;"><strong>Don't forget to add your pizza order & name in the notes!</strong></p>
-                            </div>
+                        <div class="form-group">
+                            <label for="pizzaType">Pizza Type for Package *</label>
+                            <select id="pizzaType" name="pizzaType" required>
+                                <option value="">-- Select Pizza Type --</option>
+                                <option value="Cheese">Cheese</option>
+                                <option value="Pepperoni">Pepperoni</option>
+                                <option value="Veggie">Veggie</option>
+                            </select>
                         </div>
+
+                        <div class="form-group">
+                            <label for="extraPizzas">Extra Pizzas ($15 each)</label>
+                            <select id="extraPizzas" name="extraPizzas" onchange="updateTotal()">
+                                <option value="0">No extra pizzas</option>
+                                <option value="1">1 extra pizza (+$15)</option>
+                                <option value="2">2 extra pizzas (+$30)</option>
+                                <option value="3">3 extra pizzas (+$45)</option>
+                            </select>
+                        </div>
+
+                        <div id="extraPizzaTypes" style="display: none;">
+                        </div>
+
+                        <div class="order-total">
+                            Order Total: <strong id="orderTotal">$30.00</strong>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes">Special Requests / Notes</label>
+                            <textarea id="notes" name="notes" rows="3" placeholder="Any dietary restrictions, allergies, or special requests..."></textarea>
+                        </div>
+
+                        <div class="important-note" style="margin-bottom: 20px;">
+                            <strong>Payment will be collected at the door on Bingo Night.</strong> This form reserves your pre-order so we buy the right amount of pizza.
+                        </div>
+
+                        <button type="submit" class="form-submit-btn" id="submitBtn">Submit Pre-Order</button>
+                    </form>
+
+                    <div class="form-success" id="formSuccess">
+                        <h3>Pre-Order Submitted!</h3>
+                        <p>Thank you! Your pre-order has been received. Payment will be collected at the door on Bingo Night.</p>
+                        <p style="margin-top: 10px;">If you have questions, contact Joe Petrides at <a href="mailto:joe.petrides@gmail.com" style="color: white; text-decoration: underline;">joe.petrides@gmail.com</a></p>
                     </div>
                 </div>
             </div>
@@ -545,10 +606,79 @@
     </div>
 
     <script>
+        // IMPORTANT: Replace this URL with your deployed Google Apps Script URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGbZC_SgJ3TKrrcvg6sKFIsqa1xPkL-tL53kGrIRl5sojB8RAoAR1OFK8gKZTP3LLhrg/exec';
+
         function scrollToPreOrder() {
             document.getElementById('pre-order').scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
+            });
+        }
+
+        function updateTotal() {
+            const extraPizzas = parseInt(document.getElementById('extraPizzas').value);
+            const total = 30 + (extraPizzas * 15);
+            document.getElementById('orderTotal').textContent = '$' + total.toFixed(2);
+
+            const container = document.getElementById('extraPizzaTypes');
+            container.innerHTML = '';
+            if (extraPizzas > 0) {
+                container.style.display = 'block';
+                for (let i = 1; i <= extraPizzas; i++) {
+                    const div = document.createElement('div');
+                    div.className = 'form-group';
+                    div.innerHTML = '<label for="extraPizzaType' + i + '">Extra Pizza ' + i + ' Type *</label>' +
+                        '<select id="extraPizzaType' + i + '" name="extraPizzaType' + i + '" required>' +
+                        '<option value="">-- Select Pizza Type --</option>' +
+                        '<option value="Cheese">Cheese</option>' +
+                        '<option value="Pepperoni">Pepperoni</option>' +
+                        '<option value="Veggie">Veggie</option>' +
+                        '</select>';
+                    container.appendChild(div);
+                }
+            } else {
+                container.style.display = 'none';
+            }
+        }
+
+        function submitOrder(event) {
+            event.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            const extraPizzas = parseInt(document.getElementById('extraPizzas').value);
+            const extraTypes = [];
+            for (let i = 1; i <= extraPizzas; i++) {
+                extraTypes.push(document.getElementById('extraPizzaType' + i).value);
+            }
+
+            const data = {
+                familyName: document.getElementById('familyName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                student: document.getElementById('student').value,
+                pizzaType: document.getElementById('pizzaType').value,
+                extraPizzas: extraPizzas,
+                extraPizzaTypes: extraTypes.join(', '),
+                total: 30 + (extraPizzas * 15),
+                notes: document.getElementById('notes').value
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(function() {
+                document.getElementById('preorder-form').style.display = 'none';
+                document.getElementById('formSuccess').style.display = 'block';
+            }).catch(function(error) {
+                alert('There was an error submitting your order. Please try again or contact Joe Petrides directly.');
+                btn.disabled = false;
+                btn.textContent = 'Submit Pre-Order';
             });
         }
 
