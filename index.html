@@ -522,15 +522,9 @@
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="phone" placeholder="e.g. 703-254-6206">
-                            </div>
-                            <div class="form-group">
-                                <label for="student">Student Name(s) & Grade(s)</label>
-                                <input type="text" id="student" name="student" placeholder="e.g. Maria - 3rd, John - 1st">
-                            </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="e.g. 703-254-6206">
                         </div>
 
                         <div class="form-group">
@@ -659,7 +653,7 @@
                 familyName: document.getElementById('familyName').value,
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
-                student: document.getElementById('student').value,
+                student: '',
                 pizzaType: document.getElementById('pizzaType').value,
                 extraPizzas: extraPizzas,
                 extraPizzaTypes: extraTypes.join(', '),
