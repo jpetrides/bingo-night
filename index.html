@@ -34,6 +34,28 @@
             color: #2C3544;
             text-align: center;
             padding: 30px 20px;
+            position: relative;
+        }
+
+        .lang-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #E31E24;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .lang-toggle:hover {
+            background: #C41A1F;
+            transform: translateY(-2px);
         }
 
         .logo {
@@ -412,138 +434,136 @@
             .payment-methods {
                 grid-template-columns: 1fr;
             }
+
+            .lang-toggle {
+                position: static;
+                margin-bottom: 15px;
+                display: inline-block;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
+            <button class="lang-toggle" onclick="toggleLanguage()" id="langToggle">Español</button>
             <img src="Logo.png" alt="St Anthony's School PTO Bingo Night" class="logo">
-            <h1><span class="pto-presents">St Anthony of Padua PTO Presents:</span>Family Bingo Night</h1>
-            <div class="event-date">Friday, February 6th | 6:00 PM - 8:00 PM</div>
+            <h1><span class="pto-presents" data-i18n="pto-presents">St Anthony of Padua PTO Presents:</span><span data-i18n="title">Family Bingo Night</span></h1>
+            <div class="event-date" data-i18n="event-date">Friday, February 6th | 6:00 PM - 8:00 PM</div>
 
-            <button class="pre-order-btn" onclick="scrollToPreOrder()">🍕 Click to Pre-Order Pizza 🍕</button>
+            <button class="pre-order-btn" onclick="scrollToPreOrder()" data-i18n="pre-order-btn">🍕 Click to Pre-Order Pizza 🍕</button>
 
             <div class="calendar-buttons">
                 <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=St+Anthony%27s+PTO+Bingo+Night&dates=20260206T230000Z/20260207T010000Z&details=Join+us+for+a+fun+evening+of+Bingo%21+Pizza%2C+snacks%2C+prizes%2C+and+fun+with+friends.+Pre-order+your+package+to+ensure+we+have+enough+pizza.+Contact+Joe+Petrides+at+joe.petrides%40gmail.com+or+703.254.6206+for+questions.&location=St+Anthony%27s+School+Cafeteria" target="_blank" class="calendar-btn">
-                    📅 Add to Google Calendar
+                    <span data-i18n="cal-google">📅 Add to Google Calendar</span>
                 </a>
                 <a href="#" onclick="downloadICS(); return false;" class="calendar-btn">
-                    📅 Add to Apple Calendar
+                    <span data-i18n="cal-apple">📅 Add to Apple Calendar</span>
                 </a>
             </div>
         </div>
 
         <div class="content">
             <div class="section">
-                <h2>Join Us for a Fun Evening!</h2>
-                <p>The PTO is thrilled to host Bingo Night on Friday February 6th from 6pm - 8pm. We are going to have a wonderful evening of fun. For those of you who are new to St Anthony, Bingo night is a marvel of modern efficiency that requires strict adherence to a highly complicated 4 step process:</p>
-
-                <div class="steps">
-                    <ol>
-                        <li>Show up at the cafeteria with the family - even if you are a little late</li>
-                        <li>Eat pizza, other delicious food, and snacks</li>
-                        <li>Play bingo</li>
-                        <li>Win prizes and hang with friends</li>
-                    </ol>
-                </div>
+                <h2 data-i18n="section-join">Join Us for a Fun Evening!</h2>
+                <p data-i18n="intro-text">The PTO is thrilled to host Bingo Night on Friday February 6th from 6pm - 8pm. Goodness, is that tomorrow? YES IT IS!! We are going to have a wonderful evening of fun.</p>
             </div>
 
             <div class="section">
-                <h2>Volunteers Needed</h2>
+                <h2 data-i18n="section-volunteers">Volunteers Needed</h2>
                 <div class="highlight-box">
-                    <p><strong>In order to make the evening a success we NEED volunteers</strong> to help with food, setup, ticket sales and donations. You can register to volunteer at Track It Forward at this link:</p>
-                    <p style="margin-top: 15px;"><a href="https://www.trackitforward.com/site/1119206/event/1187707" target="_blank" style="color: #2a5298; font-weight: bold; font-size: 1.1em;">Register to Volunteer →</a></p>
+                    <p><strong data-i18n="volunteers-text">In order to make the evening a success we NEED volunteers</strong> <span data-i18n="volunteers-help">to help with food, setup, ticket sales and donations. You can register to volunteer at Track It Forward at this link:</span></p>
+                    <p style="margin-top: 15px;"><a href="https://www.trackitforward.com/site/1119206/event/1187707" target="_blank" style="color: #2a5298; font-weight: bold; font-size: 1.1em;" data-i18n="volunteers-link">Register to Volunteer →</a></p>
                 </div>
             </div>
 
             <div class="section">
-                <h2>Food Donations</h2>
-                <p>If you are interested in bringing in a hot food donation that is not on the list, let Joe Petrides know at <a href="mailto:joe.petrides@gmail.com">joe.petrides@gmail.com</a> or via text/WhatsApp - 703.254.6206. We'd love to see some new food items at bingo night. We will provide the tray to warm it in, but you will need to bring it already warm.</p>
+                <h2 data-i18n="section-food">Food Donations</h2>
+                <p data-i18n="food-text">If you are interested in bringing in a hot food donation that is not on the list, let Joe Petrides know at <a href="mailto:joe.petrides@gmail.com">joe.petrides@gmail.com</a> or via text/WhatsApp - 703.254.6206. We'd love to see some new food items at bingo night. We will provide the tray to warm it in, but you will need to bring it already warm.</p>
             </div>
 
             <div class="section" id="pre-order">
-                <h2>Pre-Order Package (Highly Encouraged!)</h2>
+                <h2 data-i18n="section-preorder">Pre-Order Package (Highly Encouraged!)</h2>
                 <div class="important-note">
-                    <strong>We HIGHLY ENCOURAGE PREORDERS.</strong> It helps us make sure we buy the right amount of pizza.
+                    <strong data-i18n="encourage-preorder">We HIGHLY ENCOURAGE PREORDERS.</strong> <span data-i18n="encourage-reason">It helps us make sure we buy the right amount of pizza.</span>
                 </div>
 
                 <div class="package-box">
-                    <h3>$30 Pre-Order Package Includes:</h3>
+                    <h3 data-i18n="package-title">$30 Pre-Order Package Includes:</h3>
                     <ul>
-                        <li>1 Large Pizza (Choose: Cheese, Pepperoni or Veggie)</li>
-                        <li>10 Bingo Cards</li>
-                        <li>4 Drinks</li>
-                        <li>4 Desserts/Chips</li>
+                        <li data-i18n="package-item1">1 Large Pizza (Choose: Cheese, Pepperoni or Veggie)</li>
+                        <li data-i18n="package-item2">10 Bingo Cards</li>
+                        <li data-i18n="package-item3">4 Drinks</li>
+                        <li data-i18n="package-item4">4 Desserts/Chips</li>
                     </ul>
-                    <p style="margin-top: 15px; font-size: 1.1em;">Additional Pizzas can be pre-ordered for $15 each.</p>
+                    <p style="margin-top: 15px; font-size: 1.1em;" data-i18n="extra-pizza-note">Additional Pizzas can be pre-ordered for $15 each.</p>
                 </div>
 
                 <table class="pricing-table">
                     <thead>
                         <tr>
-                            <th>Package</th>
-                            <th>Price</th>
+                            <th data-i18n="pricing-header-package">Package</th>
+                            <th data-i18n="pricing-header-price">Price</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1 Pre-order package</td>
+                            <td data-i18n="pricing-row1">1 Pre-order package</td>
                             <td>$30</td>
                         </tr>
                         <tr>
-                            <td>1 Pre-order package + 1 extra pizza</td>
+                            <td data-i18n="pricing-row2">1 Pre-order package + 1 extra pizza</td>
                             <td>$45</td>
                         </tr>
                         <tr>
-                            <td>1 Pre-order package + 2 extra pizzas</td>
+                            <td data-i18n="pricing-row3">1 Pre-order package + 2 extra pizzas</td>
                             <td>$60</td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div class="important-note">
-                    <strong>Pre-Orders must be received by Thursday evening (February 5th).</strong>
+                    <strong data-i18n="deadline">Pre-Orders must be received by 4pm on Friday (February 6th).</strong>
                 </div>
             </div>
 
             <div class="section">
-                <h2>Pre-Order Form</h2>
+                <h2 data-i18n="section-form">Pre-Order Form</h2>
                 <div class="order-form" id="order-form-container">
                     <form id="preorder-form" onsubmit="submitOrder(event)">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="familyName">Family Name *</label>
-                                <input type="text" id="familyName" name="familyName" required placeholder="e.g. Petrides">
+                                <label for="familyName" data-i18n="form-family">Family Name *</label>
+                                <input type="text" id="familyName" name="familyName" required data-i18n-placeholder="form-family-placeholder">
                             </div>
                             <div class="form-group">
-                                <label for="email">Email *</label>
-                                <input type="email" id="email" name="email" required placeholder="e.g. joe@gmail.com">
+                                <label for="email" data-i18n="form-email">Email *</label>
+                                <input type="email" id="email" name="email" required data-i18n-placeholder="form-email-placeholder">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" placeholder="e.g. 703-254-6206">
+                            <label for="phone" data-i18n="form-phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" data-i18n-placeholder="form-phone-placeholder">
                         </div>
 
                         <div class="form-group">
-                            <label for="pizzaType">Pizza Type for Package *</label>
+                            <label for="pizzaType" data-i18n="form-pizza-type">Pizza Type for Package *</label>
                             <select id="pizzaType" name="pizzaType" required>
-                                <option value="">-- Select Pizza Type --</option>
-                                <option value="Cheese">Cheese</option>
-                                <option value="Pepperoni">Pepperoni</option>
-                                <option value="Veggie">Veggie</option>
+                                <option value="" data-i18n="form-select-pizza">-- Select Pizza Type --</option>
+                                <option value="Cheese" data-i18n="pizza-cheese">Cheese</option>
+                                <option value="Pepperoni" data-i18n="pizza-pepperoni">Pepperoni</option>
+                                <option value="Veggie" data-i18n="pizza-veggie">Veggie</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="extraPizzas">Extra Pizzas ($15 each)</label>
+                            <label for="extraPizzas" data-i18n="form-extra-pizzas">Extra Pizzas ($15 each)</label>
                             <select id="extraPizzas" name="extraPizzas" onchange="updateTotal()">
-                                <option value="0">No extra pizzas</option>
-                                <option value="1">1 extra pizza (+$15)</option>
-                                <option value="2">2 extra pizzas (+$30)</option>
-                                <option value="3">3 extra pizzas (+$45)</option>
+                                <option value="0" data-i18n="extra-0">No extra pizzas</option>
+                                <option value="1" data-i18n="extra-1">1 extra pizza (+$15)</option>
+                                <option value="2" data-i18n="extra-2">2 extra pizzas (+$30)</option>
+                                <option value="3" data-i18n="extra-3">3 extra pizzas (+$45)</option>
                             </select>
                         </div>
 
@@ -551,57 +571,241 @@
                         </div>
 
                         <div class="order-total">
-                            Order Total: <strong id="orderTotal">$30.00</strong>
+                            <span data-i18n="order-total-label">Order Total:</span> <strong id="orderTotal">$30.00</strong>
                         </div>
 
                         <div class="form-group">
-                            <label for="notes">Special Requests / Notes</label>
-                            <textarea id="notes" name="notes" rows="3" placeholder="Any dietary restrictions, allergies, or special requests..."></textarea>
+                            <label for="notes" data-i18n="form-notes">Special Requests / Notes</label>
+                            <textarea id="notes" name="notes" rows="3" data-i18n-placeholder="form-notes-placeholder"></textarea>
                         </div>
 
                         <div class="important-note" style="margin-bottom: 20px;">
-                            <strong>Payment will be collected at the door on Bingo Night.</strong> This form reserves your pre-order so we buy the right amount of pizza.
+                            <strong data-i18n="payment-note">Payment will be collected at the door on Bingo Night.</strong> <span data-i18n="payment-note2">This form reserves your pre-order so we buy the right amount of pizza.</span>
                         </div>
 
-                        <button type="submit" class="form-submit-btn" id="submitBtn">Submit Pre-Order</button>
+                        <button type="submit" class="form-submit-btn" id="submitBtn" data-i18n="form-submit">Submit Pre-Order</button>
                     </form>
 
                     <div class="form-success" id="formSuccess">
-                        <h3>Pre-Order Submitted!</h3>
-                        <p>Thank you! Your pre-order has been received. Payment will be collected at the door on Bingo Night.</p>
-                        <p style="margin-top: 10px;">If you have questions, contact Joe Petrides at <a href="mailto:joe.petrides@gmail.com" style="color: white; text-decoration: underline;">joe.petrides@gmail.com</a></p>
+                        <h3 data-i18n="success-title">Pre-Order Submitted!</h3>
+                        <p data-i18n="success-text">Thank you! Your pre-order has been received. Payment will be collected at the door on Bingo Night.</p>
+                        <p style="margin-top: 10px;" data-i18n="success-contact">If you have questions, contact Joe Petrides at <a href="mailto:joe.petrides@gmail.com" style="color: white; text-decoration: underline;">joe.petrides@gmail.com</a></p>
                     </div>
                 </div>
             </div>
 
             <div class="section">
-                <h2>Questions?</h2>
+                <h2 data-i18n="section-questions">Questions?</h2>
                 <div class="contact-info">
-                    <p><strong>Event Organizer: Joe Petrides</strong></p>
+                    <p><strong data-i18n="contact-organizer">Event Organizer: Joe Petrides</strong></p>
                     <div class="contact-line">
-                        <span>Email: <a href="mailto:joe.petrides@gmail.com">joe.petrides@gmail.com</a></span>
-                        <button class="copy-btn" onclick="copyToClipboard('joe.petrides@gmail.com', this)">Copy Email</button>
+                        <span><span data-i18n="contact-email-label">Email:</span> <a href="mailto:joe.petrides@gmail.com">joe.petrides@gmail.com</a></span>
+                        <button class="copy-btn" onclick="copyToClipboard('joe.petrides@gmail.com', this)" data-i18n="copy-email">Copy Email</button>
                     </div>
                     <div class="contact-line">
-                        <span>Text/iMessage: <a href="sms:+17032546206">703.254.6206</a></span>
-                        <button class="copy-btn" onclick="copyToClipboard('7032546206', this)">Copy Phone</button>
+                        <span><span data-i18n="contact-text-label">Text/iMessage:</span> <a href="sms:+17032546206">703.254.6206</a></span>
+                        <button class="copy-btn" onclick="copyToClipboard('7032546206', this)" data-i18n="copy-phone">Copy Phone</button>
                     </div>
                     <div class="contact-line">
                         <span>WhatsApp: <a href="https://wa.me/17032546206" target="_blank">703.254.6206</a></span>
                     </div>
-                    <p style="margin-top: 15px;">If you have ANY questions please contact the PTO or Joe Petrides.</p>
+                    <p style="margin-top: 15px;" data-i18n="contact-footer">If you have ANY questions please contact the PTO or Joe Petrides.</p>
                 </div>
             </div>
         </div>
 
         <div class="footer">
-            <p>St Anthony's School PTO | We'll see you there! 🎉</p>
+            <p data-i18n="footer">St Anthony's School PTO | We'll see you there! 🎉</p>
         </div>
     </div>
 
     <script>
         // IMPORTANT: Replace this URL with your deployed Google Apps Script URL
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyGbZC_SgJ3TKrrcvg6sKFIsqa1xPkL-tL53kGrIRl5sojB8RAoAR1OFK8gKZTP3LLhrg/exec';
+
+        // Translations
+        const translations = {
+            en: {
+                'pto-presents': 'St Anthony of Padua PTO Presents:',
+                'title': 'Family Bingo Night',
+                'event-date': 'Friday, February 6th | 6:00 PM - 8:00 PM',
+                'pre-order-btn': '🍕 Click to Pre-Order Pizza 🍕',
+                'cal-google': '📅 Add to Google Calendar',
+                'cal-apple': '📅 Add to Apple Calendar',
+                'section-join': 'Join Us for a Fun Evening!',
+                'intro-text': 'The PTO is thrilled to host Bingo Night on Friday February 6th from 6pm - 8pm. Goodness, is that tomorrow? YES IT IS!! We are going to have a wonderful evening of fun.',
+                'section-volunteers': 'Volunteers Needed',
+                'volunteers-text': 'In order to make the evening a success we NEED volunteers',
+                'volunteers-help': 'to help with food, setup, ticket sales and donations. You can register to volunteer at Track It Forward at this link:',
+                'volunteers-link': 'Register to Volunteer →',
+                'section-food': 'Food Donations',
+                'food-text': 'If you are interested in bringing in a hot food donation that is not on the list, let Joe Petrides know at <a href="mailto:joe.petrides@gmail.com">joe.petrides@gmail.com</a> or via text/WhatsApp - 703.254.6206. We\'d love to see some new food items at bingo night. We will provide the tray to warm it in, but you will need to bring it already warm.',
+                'section-preorder': 'Pre-Order Package (Highly Encouraged!)',
+                'encourage-preorder': 'We HIGHLY ENCOURAGE PREORDERS.',
+                'encourage-reason': 'It helps us make sure we buy the right amount of pizza.',
+                'package-title': '$30 Pre-Order Package Includes:',
+                'package-item1': '1 Large Pizza (Choose: Cheese, Pepperoni or Veggie)',
+                'package-item2': '10 Bingo Cards',
+                'package-item3': '4 Drinks',
+                'package-item4': '4 Desserts/Chips',
+                'extra-pizza-note': 'Additional Pizzas can be pre-ordered for $15 each.',
+                'pricing-header-package': 'Package',
+                'pricing-header-price': 'Price',
+                'pricing-row1': '1 Pre-order package',
+                'pricing-row2': '1 Pre-order package + 1 extra pizza',
+                'pricing-row3': '1 Pre-order package + 2 extra pizzas',
+                'deadline': 'Pre-Orders must be received by 4pm on Friday (February 6th).',
+                'section-form': 'Pre-Order Form',
+                'form-family': 'Family Name *',
+                'form-family-placeholder': 'e.g. Petrides',
+                'form-email': 'Email *',
+                'form-email-placeholder': 'e.g. joe@gmail.com',
+                'form-phone': 'Phone Number',
+                'form-phone-placeholder': 'e.g. 703-254-6206',
+                'form-pizza-type': 'Pizza Type for Package *',
+                'form-select-pizza': '-- Select Pizza Type --',
+                'pizza-cheese': 'Cheese',
+                'pizza-pepperoni': 'Pepperoni',
+                'pizza-veggie': 'Veggie',
+                'form-extra-pizzas': 'Extra Pizzas ($15 each)',
+                'extra-0': 'No extra pizzas',
+                'extra-1': '1 extra pizza (+$15)',
+                'extra-2': '2 extra pizzas (+$30)',
+                'extra-3': '3 extra pizzas (+$45)',
+                'extra-pizza-type': 'Extra Pizza',
+                'order-total-label': 'Order Total:',
+                'form-notes': 'Special Requests / Notes',
+                'form-notes-placeholder': 'Any dietary restrictions, allergies, or special requests...',
+                'payment-note': 'Payment will be collected at the door on Bingo Night.',
+                'payment-note2': 'This form reserves your pre-order so we buy the right amount of pizza.',
+                'form-submit': 'Submit Pre-Order',
+                'form-submitting': 'Submitting...',
+                'success-title': 'Pre-Order Submitted!',
+                'success-text': 'Thank you! Your pre-order has been received. Payment will be collected at the door on Bingo Night.',
+                'success-contact': 'If you have questions, contact Joe Petrides at <a href="mailto:joe.petrides@gmail.com" style="color: white; text-decoration: underline;">joe.petrides@gmail.com</a>',
+                'section-questions': 'Questions?',
+                'contact-organizer': 'Event Organizer: Joe Petrides',
+                'contact-email-label': 'Email:',
+                'contact-text-label': 'Text/iMessage:',
+                'copy-email': 'Copy Email',
+                'copy-phone': 'Copy Phone',
+                'copied': 'Copied!',
+                'contact-footer': 'If you have ANY questions please contact the PTO or Joe Petrides.',
+                'footer': 'St Anthony\'s School PTO | We\'ll see you there! 🎉'
+            },
+            es: {
+                'pto-presents': 'PTO de St Anthony of Padua Presenta:',
+                'title': 'Noche de Bingo Familiar',
+                'event-date': 'Viernes, 6 de Febrero | 6:00 PM - 8:00 PM',
+                'pre-order-btn': '🍕 Haz clic para Pre-Ordenar Pizza 🍕',
+                'cal-google': '📅 Agregar a Google Calendar',
+                'cal-apple': '📅 Agregar a Apple Calendar',
+                'section-join': '¡Únete a Nosotros para una Noche Divertida!',
+                'intro-text': 'El PTO está encantado de organizar la Noche de Bingo el viernes 6 de febrero a las 6:00 p.m. hasta las 8:00 p.m. ¿PUES, ESO ES MAÑANA? ¡CLARO QUE SÍ! Vamos a tener una velada maravillosa y divertida.',
+                'section-volunteers': 'Se Necesitan Voluntarios',
+                'volunteers-text': 'Para que la noche sea un éxito NECESITAMOS voluntarios',
+                'volunteers-help': 'para ayudar con comida, preparación, venta de boletos y donaciones. Puedes registrarte para ser voluntario en Track It Forward en este enlace:',
+                'volunteers-link': 'Regístrate para Ser Voluntario →',
+                'section-food': 'Donaciones de Comida',
+                'food-text': 'Si estás interesado en traer una donación de comida caliente que no esté en la lista, hazle saber a Joe Petrides en <a href="mailto:joe.petrides@gmail.com">joe.petrides@gmail.com</a> o por texto/WhatsApp - 703.254.6206. Nos encantaría ver algunos artículos de comida nuevos en la noche de bingo. Nosotros proporcionaremos la bandeja para calentarla, pero necesitarás traerla ya caliente.',
+                'section-preorder': 'Paquete de Pre-Orden (¡Muy Recomendado!)',
+                'encourage-preorder': 'RECOMENDAMOS ENCARECIDAMENTE LAS PRE-ÓRDENES.',
+                'encourage-reason': 'Nos ayuda a asegurarnos de comprar la cantidad correcta de pizza.',
+                'package-title': 'Paquete de Pre-Orden de $30 Incluye:',
+                'package-item1': '1 Pizza Grande (Elige: Queso, Pepperoni o Vegetariana)',
+                'package-item2': '10 Tarjetas de Bingo',
+                'package-item3': '4 Bebidas',
+                'package-item4': '4 Postres/Bocadillos',
+                'extra-pizza-note': 'Pizzas adicionales se pueden pre-ordenar por $15 cada una.',
+                'pricing-header-package': 'Paquete',
+                'pricing-header-price': 'Precio',
+                'pricing-row1': '1 paquete de pre-orden',
+                'pricing-row2': '1 paquete de pre-orden + 1 pizza adicional',
+                'pricing-row3': '1 paquete de pre-orden + 2 pizzas adicionales',
+                'deadline': 'Las pre-órdenes deben recibirse antes de las 4pm del viernes (6 de febrero).',
+                'section-form': 'Formulario de Pre-Orden',
+                'form-family': 'Apellido de la Familia *',
+                'form-family-placeholder': 'ej. Petrides',
+                'form-email': 'Correo Electrónico *',
+                'form-email-placeholder': 'ej. joe@gmail.com',
+                'form-phone': 'Número de Teléfono',
+                'form-phone-placeholder': 'ej. 703-254-6206',
+                'form-pizza-type': 'Tipo de Pizza para el Paquete *',
+                'form-select-pizza': '-- Selecciona el Tipo de Pizza --',
+                'pizza-cheese': 'Queso',
+                'pizza-pepperoni': 'Pepperoni',
+                'pizza-veggie': 'Vegetariana',
+                'form-extra-pizzas': 'Pizzas Adicionales ($15 cada una)',
+                'extra-0': 'Sin pizzas adicionales',
+                'extra-1': '1 pizza adicional (+$15)',
+                'extra-2': '2 pizzas adicionales (+$30)',
+                'extra-3': '3 pizzas adicionales (+$45)',
+                'extra-pizza-type': 'Pizza Adicional',
+                'order-total-label': 'Total del Pedido:',
+                'form-notes': 'Peticiones Especiales / Notas',
+                'form-notes-placeholder': 'Cualquier restricción dietética, alergias o peticiones especiales...',
+                'payment-note': 'El pago se recogerá en la puerta la Noche de Bingo.',
+                'payment-note2': 'Este formulario reserva tu pre-orden para que compremos la cantidad correcta de pizza.',
+                'form-submit': 'Enviar Pre-Orden',
+                'form-submitting': 'Enviando...',
+                'success-title': '¡Pre-Orden Enviada!',
+                'success-text': '¡Gracias! Tu pre-orden ha sido recibida. El pago se recogerá en la puerta la Noche de Bingo.',
+                'success-contact': 'Si tienes preguntas, contacta a Joe Petrides en <a href="mailto:joe.petrides@gmail.com" style="color: white; text-decoration: underline;">joe.petrides@gmail.com</a>',
+                'section-questions': '¿Preguntas?',
+                'contact-organizer': 'Organizador del Evento: Joe Petrides',
+                'contact-email-label': 'Correo Electrónico:',
+                'contact-text-label': 'Texto/iMessage:',
+                'copy-email': 'Copiar Correo',
+                'copy-phone': 'Copiar Teléfono',
+                'copied': '¡Copiado!',
+                'contact-footer': 'Si tienes CUALQUIER pregunta por favor contacta al PTO o a Joe Petrides.',
+                'footer': 'PTO de la Escuela St Anthony | ¡Nos vemos allí! 🎉'
+            }
+        };
+
+        let currentLang = localStorage.getItem('language') || 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('language', lang);
+
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(elem => {
+                const key = elem.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    elem.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
+                const key = elem.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    elem.placeholder = translations[lang][key];
+                }
+            });
+
+            // Update language toggle button
+            document.getElementById('langToggle').textContent = lang === 'en' ? 'Español' : 'English';
+
+            // Update submit button if it's in submitting state
+            const submitBtn = document.getElementById('submitBtn');
+            if (submitBtn.disabled) {
+                submitBtn.textContent = translations[lang]['form-submitting'];
+            }
+
+            // Update document language
+            document.documentElement.lang = lang;
+        }
+
+        function toggleLanguage() {
+            setLanguage(currentLang === 'en' ? 'es' : 'en');
+        }
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setLanguage(currentLang);
+        });
 
         function scrollToPreOrder() {
             document.getElementById('pre-order').scrollIntoView({
@@ -622,12 +826,13 @@
                 for (let i = 1; i <= extraPizzas; i++) {
                     const div = document.createElement('div');
                     div.className = 'form-group';
-                    div.innerHTML = '<label for="extraPizzaType' + i + '">Extra Pizza ' + i + ' Type *</label>' +
+                    const extraPizzaLabel = translations[currentLang]['extra-pizza-type'] || 'Extra Pizza';
+                    div.innerHTML = '<label for="extraPizzaType' + i + '">' + extraPizzaLabel + ' ' + i + ' ' + (currentLang === 'es' ? 'Tipo *' : 'Type *') + '</label>' +
                         '<select id="extraPizzaType' + i + '" name="extraPizzaType' + i + '" required>' +
-                        '<option value="">-- Select Pizza Type --</option>' +
-                        '<option value="Cheese">Cheese</option>' +
-                        '<option value="Pepperoni">Pepperoni</option>' +
-                        '<option value="Veggie">Veggie</option>' +
+                        '<option value="">' + translations[currentLang]['form-select-pizza'] + '</option>' +
+                        '<option value="Cheese">' + translations[currentLang]['pizza-cheese'] + '</option>' +
+                        '<option value="Pepperoni">' + translations[currentLang]['pizza-pepperoni'] + '</option>' +
+                        '<option value="Veggie">' + translations[currentLang]['pizza-veggie'] + '</option>' +
                         '</select>';
                     container.appendChild(div);
                 }
@@ -641,7 +846,7 @@
 
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.textContent = 'Submitting...';
+            btn.textContent = translations[currentLang]['form-submitting'];
 
             const extraPizzas = parseInt(document.getElementById('extraPizzas').value);
             const extraTypes = [];
@@ -672,14 +877,14 @@
             }).catch(function(error) {
                 alert('There was an error submitting your order. Please try again or contact Joe Petrides directly.');
                 btn.disabled = false;
-                btn.textContent = 'Submit Pre-Order';
+                btn.textContent = translations[currentLang]['form-submit'];
             });
         }
 
         function copyToClipboard(text, button) {
             navigator.clipboard.writeText(text).then(function() {
                 const originalText = button.textContent;
-                button.textContent = 'Copied!';
+                button.textContent = translations[currentLang]['copied'];
                 button.classList.add('copied');
 
                 setTimeout(function() {
