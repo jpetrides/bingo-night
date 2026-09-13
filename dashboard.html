@@ -187,8 +187,6 @@
     <script>
         // This is the same Apps Script endpoint used by the public pre-order form.
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuVe1Qm6Yd0bvLzts5U-NmQOkOp13d8kilWl523xpGh6lsga26vC2qHmO85-jDO9mm1g/exec';
-        const PIZZA_TYPES = ['Cheese', 'Pepperoni', 'Veggie'];
-
         function setStatus(message, kind) {
             const status = document.getElementById('status');
             status.textContent = message;
@@ -200,37 +198,28 @@
             refreshButton.disabled = true;
             setStatus('Loading orders…');
 
-            // JSONP avoids CORS restrictions on the Google Apps Script web app.
-            const callbackName = 'bingoOrders_' + Date.now();
-            const script = document.createElement('script');
-            let timeoutId;
-            const cleanup = function() {
-                clearTimeout(timeoutId);
-                delete window[callbackName];
-                script.remove();
-                refreshButton.disabled = false;
-            };
-            window[callbackName] = function(payload) {
-                cleanup();
+            // The Apps Script web app returns access-control headers for this
+            // read-only request, so use normal JSON instead of JSONP.
+            fetch(GOOGLE_SCRIPT_URL + '?action=listOrders&_=' + Date.now(), {
+                method: 'GET',
+                mode: 'cors',
+                cache: 'no-store'
+            }).then(function(response) {
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                return response.json();
+            }).then(function(payload) {
                 if (!payload || payload.error) {
-                    showError(payload && payload.error ? payload.error : 'The order service returned an invalid response.');
-                    return;
+                    throw new Error(payload && payload.error ? payload.error : 'Invalid response');
                 }
                 renderOrders(Array.isArray(payload.orders) ? payload.orders : []);
                 const generated = payload.generatedAt ? new Date(payload.generatedAt) : new Date();
                 document.getElementById('updatedAt').textContent = 'Last refreshed: ' + generated.toLocaleString();
                 setStatus('Orders loaded. Check the boxes on screen or print this list for the cashiers.', 'success');
-            };
-            script.onerror = function() {
-                cleanup();
+            }).catch(function() {
                 showError('Could not reach the order service. Confirm that the Apps Script has the listOrders doGet deployed.');
-            };
-            timeoutId = setTimeout(function() {
-                cleanup();
-                showError('The order service timed out. Confirm that the Apps Script has the listOrders doGet deployed.');
-            }, 15000);
-            script.src = GOOGLE_SCRIPT_URL + '?action=listOrders&callback=' + encodeURIComponent(callbackName) + '&_=' + Date.now();
-            document.body.appendChild(script);
+            }).finally(function() {
+                refreshButton.disabled = false;
+            });
         }
 
         function showError(message) {

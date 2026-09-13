@@ -41,7 +41,7 @@ The Apps Script is deployed as a web app on Joe's personal Google account. It re
 
 The printable cashier dashboard is available at `https://jpetrides.github.io/bingo-night/dashboard.html`. It reads a privacy-limited order list (family name, pizza types, total, and notes) from the same Apps Script endpoint and does not expose customer email or phone numbers. The dashboard sorts orders by family name and includes refresh, print, pickup, and paid checkboxes. The page is intentionally unlinked and marked `noindex`, but the URL is not authentication; share it only with the cashiers.
 
-The dashboard requires the `doGet` handler in `google-apps-script/Code.gs`. After pasting that file into the spreadsheet's Apps Script project, deploy a new web-app version. The handler supports `?action=listOrders` and JSONP so the static GitHub Pages site can read the orders without a separate server.
+The dashboard requires the `doGet` handler in `google-apps-script/Code.gs`. After pasting that file into the spreadsheet's Apps Script project, deploy a new web-app version. The handler supports `?action=listOrders` and returns CORS-enabled JSON so the static GitHub Pages site can read the orders without a separate server.
 
 The Apps Script code:
 ```javascript
