@@ -27,7 +27,7 @@ Single-page static website for St Anthony of Padua School PTO Family Bingo Night
 ### Pre-Order Form (Google Sheets Integration)
 - Custom HTML form replaces previous Venmo/PayPal/Zelle payment sections (school policy prohibits personal payment collection)
 - Form submits via `fetch()` with `mode: 'no-cors'` to a Google Apps Script web app
-- Google Apps Script URL: `https://script.google.com/macros/s/AKfycbyGbZC_SgJ3TKrrcvg6sKFIsqa1xPkL-tL53kGrIRl5sojB8RAoAR1OFK8gKZTP3LLhrg/exec`
+- Google Apps Script URL: `https://script.google.com/macros/s/AKfycbwuVe1Qm6Yd0bvLzts5U-NmQOkOp13d8kilWl523xpGh6lsga26vC2qHmO85-jDO9mm1g/exec`
 - Payment is collected at the door; the form only reserves the pre-order
 - Form fields: Family Name*, Email*, Phone, Pizza Type*, Extra Pizzas (with dynamic type selectors), Notes
 - **Note**: Student name field was removed but form still sends empty string for 'student' to maintain Google Sheets column structure
@@ -38,6 +38,10 @@ Single-page static website for St Anthony of Padua School PTO Family Bingo Night
 ### Google Apps Script Backend
 The Apps Script is deployed as a web app on Joe's personal Google account. It receives POST requests and appends rows to a Google Sheet with columns:
 `Timestamp | Family Name | Email | Phone | Student | Pizza Type | Extra Pizzas | Extra Pizza Types | Total | Notes`
+
+The printable cashier dashboard is available at `https://jpetrides.github.io/bingo-night/dashboard.html`. It reads a privacy-limited order list (family name, pizza types, total, and notes) from the same Apps Script endpoint and does not expose customer email or phone numbers. The dashboard sorts orders by family name and includes refresh, print, pickup, and paid checkboxes. The page is intentionally unlinked and marked `noindex`, but the URL is not authentication; share it only with the cashiers.
+
+The dashboard requires the `doGet` handler in `google-apps-script/Code.gs`. After pasting that file into the spreadsheet's Apps Script project, deploy a new web-app version. The handler supports `?action=listOrders` and JSONP so the static GitHub Pages site can read the orders without a separate server.
 
 The Apps Script code:
 ```javascript
@@ -80,6 +84,8 @@ To redeploy: Google Sheets > Extensions > Apps Script > Deploy > Manage deployme
 
 ## File Structure
 - `index.html` - The entire website (HTML + CSS + JS)
+- `dashboard.html` - Unlinked, print-friendly cashier order dashboard
+- `google-apps-script/Code.gs` - Apps Script backend with form POST and dashboard GET handlers
 - `Logo.png` - Event logo displayed in header
 - `QR Codes/` - Directory with Venmo.png, Paypal.jpg, Zelle1.jpeg (no longer used on site but still in repo)
 - `colors.json` - School color palette reference

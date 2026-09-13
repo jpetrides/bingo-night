@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Cashier Dashboard | St. Anthony's Bingo Night</title>
+    <style>
+        :root {
+            --navy: #3E4A5C;
+            --gold: #D4C5A0;
+            --light-gold: #E5D9BA;
+            --red: #E31E24;
+            --green: #198754;
+            --ink: #1A1A1A;
+            --muted: #68717d;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 24px;
+            background: var(--navy);
+            color: var(--ink);
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+        }
+
+        .dashboard {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 32px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 16px 45px rgba(0, 0, 0, .25);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+            border-bottom: 3px solid var(--gold);
+            padding-bottom: 20px;
+        }
+
+        h1 { margin: 0 0 4px; color: var(--navy); font-size: clamp(1.65rem, 4vw, 2.35rem); }
+        h2 { margin: 28px 0 14px; color: var(--navy); font-size: 1.35rem; }
+        .subtitle { margin: 0; color: var(--muted); }
+
+        .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+        button {
+            border: 0;
+            border-radius: 7px;
+            padding: 10px 16px;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .primary { background: var(--red); color: #fff; }
+        .secondary { background: var(--light-gold); color: var(--navy); }
+        button:disabled { opacity: .65; cursor: wait; }
+
+        .status {
+            margin: 18px 0;
+            padding: 12px 14px;
+            border-radius: 7px;
+            background: #f1f3f5;
+            color: var(--muted);
+        }
+        .status.error { background: #fff0f0; color: #9b1c1f; }
+        .status.success { background: #eaf7ef; color: #176b3c; }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(110px, 1fr));
+            gap: 12px;
+        }
+        .summary-card {
+            min-height: 94px;
+            padding: 15px;
+            border: 1px solid #d9dde2;
+            border-top: 5px solid var(--navy);
+            border-radius: 8px;
+            background: #fafbfc;
+        }
+        .summary-card.total { border-top-color: var(--red); }
+        .summary-label { color: var(--muted); font-size: .9rem; font-weight: 700; }
+        .summary-value { margin-top: 4px; color: var(--navy); font-size: 2rem; font-weight: 800; }
+
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px 9px; border-bottom: 1px solid #dfe3e7; text-align: left; vertical-align: middle; }
+        th { background: var(--navy); color: #fff; font-size: .9rem; white-space: nowrap; }
+        tbody tr:nth-child(even) { background: #fafbfc; }
+        tbody tr:hover { background: #fff9e9; }
+        td.family { min-width: 150px; font-weight: 700; }
+        td.pizzas { min-width: 200px; }
+        td.total { white-space: nowrap; font-weight: 700; }
+        td.notes { color: var(--muted); min-width: 160px; }
+        .check-cell { width: 86px; text-align: center; }
+        .check-cell input { width: 21px; height: 21px; accent-color: var(--green); cursor: pointer; }
+        .empty { padding: 28px 12px; color: var(--muted); text-align: center; }
+        .print-note { margin-top: 15px; color: var(--muted); font-size: .88rem; }
+        .updated { margin-top: 18px; color: var(--muted); font-size: .85rem; }
+
+        @media (max-width: 760px) {
+            body { padding: 10px; }
+            .dashboard { padding: 18px; }
+            .dashboard-header { display: block; }
+            .actions { justify-content: flex-start; margin-top: 15px; }
+            .summary-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media print {
+            @page { size: letter landscape; margin: .45in; }
+            body { padding: 0; background: #fff; font-size: 10pt; }
+            .dashboard { max-width: none; padding: 0; box-shadow: none; border-radius: 0; }
+            .dashboard-header { padding-bottom: 10px; }
+            .actions, .status, .print-note { display: none; }
+            h1 { font-size: 20pt; }
+            h2 { margin-top: 15px; font-size: 13pt; }
+            .summary-grid { gap: 6px; }
+            .summary-card { min-height: 58px; padding: 7px 9px; }
+            .summary-value { font-size: 16pt; }
+            th, td { padding: 5px 6px; }
+            th { background: #3E4A5C !important; color: #fff !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+            tbody tr { break-inside: avoid; }
+            .check-cell input { appearance: none; -webkit-appearance: none; width: 17px; height: 17px; border: 1.5px solid #333; border-radius: 2px; vertical-align: middle; }
+            .check-cell input:checked::after { content: "✓"; display: block; margin-top: -4px; font-size: 16px; font-weight: 700; }
+            .updated { margin-top: 8px; font-size: 8pt; }
+        }
+    </style>
+</head>
+<body>
+    <main class="dashboard">
+        <header class="dashboard-header">
+            <div>
+                <h1>Cashier Dashboard</h1>
+                <p class="subtitle">St. Anthony of Padua PTO Family Bingo Night</p>
+            </div>
+            <div class="actions">
+                <button class="secondary" type="button" id="refreshBtn">↻ Refresh</button>
+                <button class="primary" type="button" onclick="window.print()">🖨 Print List</button>
+            </div>
+        </header>
+
+        <div class="status" id="status" role="status">Loading orders…</div>
+
+        <section aria-labelledby="summary-heading">
+            <h2 id="summary-heading">Pizza Summary</h2>
+            <div class="summary-grid">
+                <article class="summary-card total"><div class="summary-label">Orders</div><div class="summary-value" id="orderCount">—</div></article>
+                <article class="summary-card total"><div class="summary-label">Total pizzas</div><div class="summary-value" id="pizzaCount">—</div></article>
+                <article class="summary-card"><div class="summary-label">Cheese</div><div class="summary-value" id="cheeseCount">—</div></article>
+                <article class="summary-card"><div class="summary-label">Pepperoni</div><div class="summary-value" id="pepperoniCount">—</div></article>
+                <article class="summary-card"><div class="summary-label">Veggie</div><div class="summary-value" id="veggieCount">—</div></article>
+            </div>
+        </section>
+
+        <section aria-labelledby="orders-heading">
+            <h2 id="orders-heading">Order Pickup &amp; Payment</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Family / Person</th>
+                            <th>Pizza(s)</th>
+                            <th>Total</th>
+                            <th class="check-cell">Picked up</th>
+                            <th class="check-cell">Paid</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody">
+                        <tr><td class="empty" colspan="7">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="print-note">Print this page and mark each box when the order is picked up and paid.</p>
+        </section>
+        <p class="updated" id="updatedAt"></p>
+    </main>
+
+    <script>
+        // This is the same Apps Script endpoint used by the public pre-order form.
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwuVe1Qm6Yd0bvLzts5U-NmQOkOp13d8kilWl523xpGh6lsga26vC2qHmO85-jDO9mm1g/exec';
+        const PIZZA_TYPES = ['Cheese', 'Pepperoni', 'Veggie'];
+
+        function setStatus(message, kind) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status' + (kind ? ' ' + kind : '');
+        }
+
+        function loadOrders() {
+            const refreshButton = document.getElementById('refreshBtn');
+            refreshButton.disabled = true;
+            setStatus('Loading orders…');
+
+            // JSONP avoids CORS restrictions on the Google Apps Script web app.
+            const callbackName = 'bingoOrders_' + Date.now();
+            const script = document.createElement('script');
+            let timeoutId;
+            const cleanup = function() {
+                clearTimeout(timeoutId);
+                delete window[callbackName];
+                script.remove();
+                refreshButton.disabled = false;
+            };
+            window[callbackName] = function(payload) {
+                cleanup();
+                if (!payload || payload.error) {
+                    showError(payload && payload.error ? payload.error : 'The order service returned an invalid response.');
+                    return;
+                }
+                renderOrders(Array.isArray(payload.orders) ? payload.orders : []);
+                const generated = payload.generatedAt ? new Date(payload.generatedAt) : new Date();
+                document.getElementById('updatedAt').textContent = 'Last refreshed: ' + generated.toLocaleString();
+                setStatus('Orders loaded. Check the boxes on screen or print this list for the cashiers.', 'success');
+            };
+            script.onerror = function() {
+                cleanup();
+                showError('Could not reach the order service. Confirm that the Apps Script has the listOrders doGet deployed.');
+            };
+            timeoutId = setTimeout(function() {
+                cleanup();
+                showError('The order service timed out. Confirm that the Apps Script has the listOrders doGet deployed.');
+            }, 15000);
+            script.src = GOOGLE_SCRIPT_URL + '?action=listOrders&callback=' + encodeURIComponent(callbackName) + '&_=' + Date.now();
+            document.body.appendChild(script);
+        }
+
+        function showError(message) {
+            setStatus(message, 'error');
+            document.getElementById('ordersBody').innerHTML = '<tr><td class="empty" colspan="7">No orders loaded.</td></tr>';
+            ['orderCount', 'pizzaCount', 'cheeseCount', 'pepperoniCount', 'veggieCount'].forEach(function(id) {
+                document.getElementById(id).textContent = '—';
+            });
+        }
+
+        function normalizeType(value) {
+            const text = String(value || '').trim().toLowerCase();
+            if (text === 'cheese' || text === 'queso') return 'Cheese';
+            if (text === 'pepperoni') return 'Pepperoni';
+            if (text === 'veggie' || text === 'vegetarian' || text === 'vegetariana') return 'Veggie';
+            return String(value || '').trim() || 'Unspecified';
+        }
+
+        function normalizeOrder(order, index) {
+            const extraTypes = Array.isArray(order.extraPizzaTypes)
+                ? order.extraPizzaTypes
+                : String(order.extraPizzaTypes || '').split(',');
+            const extras = extraTypes.map(normalizeType).filter(function(type) { return type !== 'Unspecified'; });
+            let extraCount = Number.parseInt(order.extraPizzas, 10);
+            if (Number.isNaN(extraCount)) extraCount = extras.length;
+            const pizzas = [normalizeType(order.pizzaType)].concat(extras.slice(0, Math.max(0, extraCount)));
+            while (pizzas.length < extraCount + 1) pizzas.push('Unspecified');
+            return {
+                id: order.id || index + 1,
+                familyName: String(order.familyName || '').trim() || 'Unnamed order',
+                pizzas: pizzas,
+                total: order.total === null || order.total === undefined || order.total === '' ? NaN : Number(order.total),
+                notes: String(order.notes || '').trim()
+            };
+        }
+
+        function renderOrders(rawOrders) {
+            const orders = rawOrders.map(normalizeOrder).sort(function(a, b) {
+                return a.familyName.localeCompare(b.familyName, undefined, { sensitivity: 'base' });
+            });
+            const counts = { Cheese: 0, Pepperoni: 0, Veggie: 0 };
+            orders.forEach(function(order) {
+                order.pizzas.forEach(function(type) {
+                    if (Object.prototype.hasOwnProperty.call(counts, type)) counts[type] += 1;
+                });
+            });
+
+            document.getElementById('orderCount').textContent = orders.length;
+            document.getElementById('pizzaCount').textContent = orders.reduce(function(total, order) { return total + order.pizzas.length; }, 0);
+            document.getElementById('cheeseCount').textContent = counts.Cheese;
+            document.getElementById('pepperoniCount').textContent = counts.Pepperoni;
+            document.getElementById('veggieCount').textContent = counts.Veggie;
+
+            const body = document.getElementById('ordersBody');
+            body.replaceChildren();
+            if (!orders.length) {
+                body.innerHTML = '<tr><td class="empty" colspan="7">No pre-orders have been submitted.</td></tr>';
+                return;
+            }
+            orders.forEach(function(order, index) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td>' + (index + 1) + '</td>' +
+                    '<td class="family"></td>' +
+                    '<td class="pizzas"></td>' +
+                    '<td class="total"></td>' +
+                    '<td class="check-cell"></td>' +
+                    '<td class="check-cell"></td>' +
+                    '<td class="notes"></td>';
+                row.querySelector('.family').textContent = order.familyName;
+                row.querySelector('.pizzas').textContent = order.pizzas.join(', ');
+                row.querySelector('.total').textContent = Number.isFinite(order.total) ? '$' + order.total.toFixed(2) : '—';
+                row.querySelector('.notes').textContent = order.notes || '—';
+                ['picked-up', 'paid'].forEach(function(label) {
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.setAttribute('aria-label', label + ' for ' + order.familyName);
+                    row.querySelectorAll('.check-cell')[label === 'picked-up' ? 0 : 1].appendChild(checkbox);
+                });
+                body.appendChild(row);
+            });
+        }
+
+        document.getElementById('refreshBtn').addEventListener('click', loadOrders);
+        loadOrders();
+    </script>
+</body>
+</html>
