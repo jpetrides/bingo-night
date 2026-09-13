@@ -254,15 +254,19 @@
                 ? order.extraPizzaTypes
                 : String(order.extraPizzaTypes || '').split(',');
             const extras = extraTypes.map(normalizeType).filter(function(type) { return type !== 'Unspecified'; });
-            let extraCount = Number.parseInt(order.extraPizzas, 10);
-            if (Number.isNaN(extraCount)) extraCount = extras.length;
+            const parsedExtraCount = Number.parseInt(order.extraPizzas, 10);
+            const numericTotal = order.total === null || order.total === undefined || order.total === '' ? NaN : Number(order.total);
+            // Older rows can have a missing extra-pizza count. Use the listed
+            // types and total as fallbacks so the pizza summary remains accurate.
+            const inferredExtraCount = Number.isFinite(numericTotal) ? Math.max(0, Math.round((numericTotal - 30) / 15)) : 0;
+            const extraCount = Math.max(Number.isNaN(parsedExtraCount) ? 0 : parsedExtraCount, extras.length, inferredExtraCount);
             const pizzas = [normalizeType(order.pizzaType)].concat(extras.slice(0, Math.max(0, extraCount)));
             while (pizzas.length < extraCount + 1) pizzas.push('Unspecified');
             return {
                 id: order.id || index + 1,
                 familyName: String(order.familyName || '').trim() || 'Unnamed order',
                 pizzas: pizzas,
-                total: order.total === null || order.total === undefined || order.total === '' ? NaN : Number(order.total),
+                total: numericTotal,
                 notes: String(order.notes || '').trim()
             };
         }
